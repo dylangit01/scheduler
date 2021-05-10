@@ -1,11 +1,18 @@
 import React from "react";
-
 import "components/Button.scss";
 
-export default function Button({ children, onClick, disabled }) {
-	let buttonClass = 'button';
+const classnames = require('classnames');       // Add classname library
 
-   children && (buttonClass += ` button--${children === 'Cancel' ? 'danger' : children.toLowerCase()}`)
+export default function Button({ confirm, danger, children, onClick, disabled }) {
+	// without className library
+	// let buttonClass = 'button';
+	// buttonClass += ` button--${danger ? 'danger' : confirm && 'confirm'}`
+
+	// with className library
+	const buttonClass = classnames('button', {
+		'button--confirm': confirm,
+		'button--danger': danger,
+	});
 
 	return (
 		<button disabled={disabled} onClick={onClick} className={buttonClass}>
