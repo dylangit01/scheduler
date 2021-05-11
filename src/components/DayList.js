@@ -7,7 +7,7 @@ const DayList = ({ days, day, setDay }) => {
 			{[...days].map(({ id, name, spots }) => (
 				<DayListItem
 					key={id}
-					// desconstructing day
+					// destructuring day
 					{...{ name, spots }}
 					// Whenever the day={''} in DayList of App === the day of DataBase,
 					// that day is the selected day
