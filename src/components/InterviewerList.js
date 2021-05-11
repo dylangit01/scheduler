@@ -14,10 +14,10 @@ const InterviewerList = ({ interviewers, interviewer, setInterviewer }) => {
 				{[...interviewers].map(({ id, name, avatar }) => (
 					<InterviewerListItem
 						key={id}
-						name={name}
-						avatar={avatar}
+						// desconstructing interviewer
+						{...{name, avatar}}
 						selected={id === interviewer}
-						setInterviewer={(e) => setInterviewer(id)}
+						setInterviewer={() => setInterviewer(id)}
 					/>
 				))}
 			</ul>
