@@ -2,9 +2,10 @@ import React from 'react';
 import './InterviewerList.scss';
 import InterviewerListItem from './InterviewerListItem';
 
-// In List component, we are using very generic name: "value" and "onChange" to represent the interviewer and setInterviewer fn
-// So if any interviewer as the value passed down from parent component (say app.js), as long as this value equals to onChange value, 
-// the List component can compare the selected item to the current id and set the value to true when they match.
+// In List component, Using the generic name: "value" and "onChange" to represent the interviewer and setInterviewer fn
+// So that if any interviewer as the value passed down from parent component (say app.js), 
+// the List component can compare the selected item to the current id or name and set the value to true when they match.
+
 const InterviewerList = ({ interviewers, value, onChange }) => {	
 	return (
 		<section className='interviewers'>
@@ -19,7 +20,7 @@ const InterviewerList = ({ interviewers, value, onChange }) => {
 						key={id}
 						// destructuring interviewer
 						{...{ name, avatar }}
-						selected={id === value} // the value is the value in stories
+						selected={id === value} // the value is the value pass from parent component
 						setInterviewer={(e) => onChange(id)}
 					/>
 				))}

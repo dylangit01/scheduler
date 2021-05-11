@@ -9,10 +9,10 @@ const DayList = ({ days, value, onChange }) => {
 					key={id}
 					// destructuring day
 					{...{ name, spots }}
-					// Whenever the day={''} in DayList of App === the day of DataBase,
-					// that day is the selected day
+					// Once the day(value) equals the the current name value, that day is the selected day
 					selected={name === value}
-					setDay={(e) => onChange(name)} // Add name inside the fn, so in DayListItem, we no longer need name in setDay fn
+					// Add name inside the fn, so that we no longer need to pass name to DayListItem
+					setDay={(e) => onChange(name)}
 				/>
 			))}
 		</ul>

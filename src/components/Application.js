@@ -22,24 +22,18 @@ const days = [
 ];
 
 export default function Application(props) {
-  const [selectedDay, setSelectedDay] = useState('Monday');
+	const [selectedDay, setSelectedDay] = useState('Monday');
 	return (
 		<main className='layout'>
 			<section className='sidebar'>
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, because the trigger event is from DayListItem, the obtained day value will be retrieved from DayListItem setDay fn, and logged here.  */}
-					{/*
-          //////////////////////////////////////////////////////////////////////////////////
-          //  Using useState to update the setDay fn, since it accepts (day name) as argument,
-          //  it can be simple as: setDay={setSelectedDay}
-          //
-          //  setDay={(name) => {
-					//		setSelectedDay(name);
-					//	}}
-          ////////////////////////////////////////////////////
-          */}
+
+					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
+					because the trigger event is from DayListItem, the obtained day value will be retrieved 
+					from DayListItem setDay fn, and logged here.  */}
+
 					<DayList
 						days={days}
 						value={selectedDay} // Use generic way (value and onChange) to pass down day and setSelectedDay
@@ -54,3 +48,14 @@ export default function Application(props) {
 		</main>
 	);
 }
+
+/*
+  ////////////////////////////////////////////////////////////////////////////////////
+  //  Using useState to update the setDay fn, since it accepts (day.name) as argument,
+  //  it can be simple as: setDay={setSelectedDay}
+  //
+  //  setDay={(name) => {
+	//		setSelectedDay(name);
+	//	}}
+  ////////////////////////////////////////////////////
+*/
