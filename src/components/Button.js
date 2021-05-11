@@ -1,7 +1,8 @@
 import React from "react";
 import "components/Button.scss";
 
-const classnames = require('classnames');       // Add classname library
+// import classnames library:
+import classnames from 'classnames';
 
 export default function Button({ confirm, danger, children, onClick, disabled }) {
 	// without className library
