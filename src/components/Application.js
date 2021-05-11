@@ -42,8 +42,8 @@ export default function Application(props) {
           */}
 					<DayList
 						days={days}
-						day={selectedDay}
-						setDay={setSelectedDay}
+						value={selectedDay} // Use generic way (value and onChange) to pass down day and setSelectedDay
+						onChange={setSelectedDay}
 					/>
 				</nav>
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
