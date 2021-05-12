@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DayList from './DayList';
 import Appointment from './Appointment';
 import axios from 'axios';
+// import {getAppointmentsForDay } from '../helpers/selectors'
 
 import 'components/Application.scss';
 
@@ -79,13 +80,21 @@ const appointments = [
 // ];
 
 export default function Application(props) {
-	const [selectedDay, setSelectedDay] = useState('Monday');
-	const [days, setDays] = useState([]);
+	// const [day, setDay] = useState('Monday');
+	// const [days, setDays] = useState([]);
+
+	// Combine states:
+	const [state, setState] = useState({
+		day: "Monday",
+		days: [],
+		// appointments:{}
+	})
+	const setDay = day => setState({ ...state, day });
+	const setDays = days => setState({ ...state, days });
 
 	useEffect(() => {
 		const ENDPOINT_DAY = 'http://localhost:8001/api/days';
 		axios.get(ENDPOINT_DAY).then((res) => {
-			console.log(res);
 			setDays(res.data);
 		});
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
@@ -101,9 +110,9 @@ export default function Application(props) {
 					from DayListItem setDay fn, and logged here.  */}
 
 					<DayList
-						days={days}
-						value={selectedDay} // Use generic way (value and onChange) to pass down day and setSelectedDay
-						onChange={setSelectedDay}
+						days={state.days}
+						value={state.day} // Use generic way (value and onChange) to pass down day and setSelectedDay
+						onChange={setDay}
 					/>
 				</nav>
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
