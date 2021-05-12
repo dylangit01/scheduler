@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DayList from './DayList';
+import Appointment from './Appointment';
 
 import 'components/Application.scss';
 
@@ -84,7 +85,6 @@ export default function Application(props) {
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -98,7 +98,10 @@ export default function Application(props) {
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
 			</section>
 			<section className='schedule'>
-				{/* Replace this with the schedule elements during the "The Scheduler" activity. */}
+				{[...appointments].map(({ id, interview, time }) => (
+					<Appointment key={id} interview={interview} time={time} />
+				))}
+				<Appointment key='last' time='5pm' />
 			</section>
 		</main>
 	);
