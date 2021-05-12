@@ -87,16 +87,34 @@ export default function Application(props) {
 	const [state, setState] = useState({
 		day: 'Monday',
 		days: [],
-		// appointments:{}
+		appointments:{}
 	});
+	// setDay function can remain because we are only using it to update our DayList component.
 	const setDay = (day) => setState({ ...state, day });
-	const setDays = (days) => setState((prev) => ({ ...prev, days }));		// why useEffect not complain now?
+	// setDays fn will be refactored with fetch appointments fn:
+	// const setDays = (days) => setState((prev) => ({ ...prev, days }));		// why useEffect not complain now?
+	
+	
+	const dailyAppointments = [];
 
 	useEffect(() => {
 		const ENDPOINT_DAY = 'http://localhost:8001/api/days';
-		axios.get(ENDPOINT_DAY).then((res) => {
-			setDays(res.data);
-		});
+		const ENDPOINT_APPOINTMENTS = 'http://localhost:8001/api/appointments';
+		const ENDPOINT_INTERVIEWERS = 'http://localhost:8001/api/interviewers';
+		// axios.get(ENDPOINT_DAY)
+		// 	.then((res) => {
+		// 	 setDays(res.data);
+
+		// });
+		Promise.all([
+			axios.get(ENDPOINT_DAY),
+			axios.get(ENDPOINT_APPOINTMENTS),
+			axios.get(ENDPOINT_INTERVIEWERS)
+		]).then(all => {
+			const [days, appointments, interviewers] = all;
+			// console.log(days.data, appointments.data, interviewers.data);
+			setState((prev) => ({ ...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
+		})
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
 	return (
@@ -118,7 +136,7 @@ export default function Application(props) {
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
 			</section>
 			<section className='schedule'>
-				{[...appointments].map((appointment) => (
+				{[...dailyAppointments].map((appointment) => (
 					<Appointment key={appointment.id} {...appointment} />
 				))}
 				<Appointment key='last' time='5pm' />
