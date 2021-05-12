@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DayList from './DayList';
 import Appointment from './Appointment';
 import axios from 'axios';
-// import {getAppointmentsForDay } from '../helpers/selectors'
+import {getAppointmentsForDay } from '../helpers/selectors'
 
 import 'components/Application.scss';
 
@@ -61,24 +61,6 @@ import 'components/Application.scss';
 // 	},
 // ];
 
-// const days = [
-// 	{
-// 		id: 1,
-// 		name: 'Monday',
-// 		spots: 2,
-// 	},
-// 	{
-// 		id: 2,
-// 		name: 'Tuesday',
-// 		spots: 5,
-// 	},
-// 	{
-// 		id: 3,
-// 		name: 'Wednesday',
-// 		spots: 0,
-// 	},
-// ];
-
 export default function Application(props) {
 	// const [day, setDay] = useState('Monday');
 	// const [days, setDays] = useState([]);
@@ -93,19 +75,13 @@ export default function Application(props) {
 	const setDay = (day) => setState({ ...state, day });
 	// setDays fn will be refactored with fetch appointments fn:
 	// const setDays = (days) => setState((prev) => ({ ...prev, days }));		// why useEffect not complain now?
-	
-	
-	const dailyAppointments = [];
 
 	useEffect(() => {
 		const ENDPOINT_DAY = 'http://localhost:8001/api/days';
 		const ENDPOINT_APPOINTMENTS = 'http://localhost:8001/api/appointments';
 		const ENDPOINT_INTERVIEWERS = 'http://localhost:8001/api/interviewers';
-		// axios.get(ENDPOINT_DAY)
-		// 	.then((res) => {
-		// 	 setDays(res.data);
-
-		// });
+		
+		// using Promise.all to fetch all data from three different endpoints and return them by order
 		Promise.all([
 			axios.get(ENDPOINT_DAY),
 			axios.get(ENDPOINT_APPOINTMENTS),
@@ -123,6 +99,7 @@ export default function Application(props) {
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
+
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -136,7 +113,8 @@ export default function Application(props) {
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
 			</section>
 			<section className='schedule'>
-				{[...dailyAppointments].map((appointment) => (
+				{/* using help fn to return the array of appointments */}
+				{getAppointmentsForDay(state, state.day).map((appointment) => (
 					<Appointment key={appointment.id} {...appointment} />
 				))}
 				<Appointment key='last' time='5pm' />
