@@ -123,7 +123,6 @@ export default function Application(props) {
 	);
 }
 
-/*
   ////////////////////////////////////////////////////////////////////////////////////
   //  Using useState to update the setDay fn, since it accepts (day.name) as argument,
   //  it can be simple as: setDay={setSelectedDay}
@@ -131,5 +130,4 @@ export default function Application(props) {
   //  setDay={(name) => {
 	//		setSelectedDay(name);
 	//	}}
-  ////////////////////////////////////////////////////
-*/
+  ////////////////////////////////////////////////////////////////////////////////////
