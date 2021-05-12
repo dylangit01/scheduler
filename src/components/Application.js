@@ -84,11 +84,11 @@ export default function Application(props) {
 
 	useEffect(() => {
 		const ENDPOINT_DAY = 'http://localhost:8001/api/days';
-		axios.get(ENDPOINT_DAY).then(res => {
+		axios.get(ENDPOINT_DAY).then((res) => {
 			console.log(res);
-			setDays(res.data)
-		})
-	},[])
+			setDays(res.data);
+		});
+	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
 	return (
 		<main className='layout'>
