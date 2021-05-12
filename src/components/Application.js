@@ -36,14 +36,14 @@ const appointments = [
 	{
 		id: 4,
 		time: '3pm',
-		interview: {
-			student: 'Sienna',
-			interviewer: {
-				id: 5,
-				name: 'Sven Jones',
-				avatar: 'https://i.imgur.com/twYrpay.jpg',
-			},
-		},
+		// interview: {
+		// 	student: 'Sienna',
+		// 	interviewer: {
+		// 		id: 5,
+		// 		name: 'Sven Jones',
+		// 		avatar: 'https://i.imgur.com/twYrpay.jpg',
+		// 	},
+		// },
 	},
 	{
 		id: 5,
@@ -98,8 +98,8 @@ export default function Application(props) {
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
 			</section>
 			<section className='schedule'>
-				{[...appointments].map(({ id, interview, time }) => (
-					<Appointment key={id} interview={interview} time={time} />
+				{[...appointments].map((appointment) => (
+					<Appointment key={appointment.id} {...appointment} />
 				))}
 				<Appointment key='last' time='5pm' />
 			</section>
