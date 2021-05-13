@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DayList from './DayList';
 import Appointment from './Appointment';
 import axios from 'axios';
-import {getAppointmentsForDay } from '../helpers/selectors'
+import { getAppointmentsForDay, getInterview } from '../helpers/selectors';
 
 import 'components/Application.scss';
 
@@ -69,7 +69,8 @@ export default function Application(props) {
 	const [state, setState] = useState({
 		day: 'Monday',
 		days: [],
-		appointments:{}
+		appointments: {},
+		interviewers: {},
 	});
 	// setDay function can remain because we are only using it to update our DayList component.
 	const setDay = (day) => setState({ ...state, day });
@@ -80,17 +81,20 @@ export default function Application(props) {
 		const ENDPOINT_DAY = 'http://localhost:8001/api/days';
 		const ENDPOINT_APPOINTMENTS = 'http://localhost:8001/api/appointments';
 		const ENDPOINT_INTERVIEWERS = 'http://localhost:8001/api/interviewers';
-		
+
 		// using Promise.all to fetch all data from three different endpoints and return them by order
-		Promise.all([
-			axios.get(ENDPOINT_DAY),
-			axios.get(ENDPOINT_APPOINTMENTS),
-			axios.get(ENDPOINT_INTERVIEWERS)
-		]).then(all => {
-			const [days, appointments, interviewers] = all;
-			// console.log(days.data, appointments.data, interviewers.data);
-			setState((prev) => ({ ...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
-		})
+		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
+			(all) => {
+				const [days, appointments, interviewers] = all;
+				console.log(days.data, appointments.data, interviewers.data);
+				setState((prev) => ({
+					...prev,
+					days: days.data,
+					appointments: appointments.data,
+					interviewers: interviewers.data,
+				}));
+			}
+		);
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
 	return (
@@ -99,7 +103,7 @@ export default function Application(props) {
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-
+					
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -114,20 +118,21 @@ export default function Application(props) {
 			</section>
 			<section className='schedule'>
 				{/* using help fn to return the array of appointments */}
-				{getAppointmentsForDay(state, state.day).map((appointment) => (
-					<Appointment key={appointment.id} {...appointment} />
-				))}
+				{getAppointmentsForDay(state, state.day).map((appointment) => {
+					const interview = getInterview(state, appointment.interview);
+					return <Appointment key={appointment.id} time={appointment.time} interview={interview} />;
+				})}
 				<Appointment key='last' time='5pm' />
 			</section>
 		</main>
 	);
 }
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  //  Using useState to update the setDay fn, since it accepts (day.name) as argument,
-  //  it can be simple as: setDay={setSelectedDay}
-  //
-  //  setDay={(name) => {
-	//		setSelectedDay(name);
-	//	}}
-  ////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+//  Using useState to update the setDay fn, since it accepts (day.name) as argument,
+//  it can be simple as: setDay={setSelectedDay}
+//
+//  setDay={(name) => {
+//		setSelectedDay(name);
+//	}}
+////////////////////////////////////////////////////////////////////////////////////

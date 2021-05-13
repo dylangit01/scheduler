@@ -17,3 +17,17 @@ export const getAppointmentsForDay = (state, day) => {
 	// when the day is not found, return original result []
 	return result;
 }
+
+export const getInterview = (state, interview) => {
+	if (!interview) return null;
+	const interviewersCopy = { ...state.interviewers };
+
+	for (const key in interviewersCopy) {
+		if (interview.interviewer == interviewersCopy[key].id) {
+			// interviewer will overwrite original interviewer data
+			return{...interview, interviewer: interviewersCopy[key]}
+		}
+	}
+	// If no match, return null
+	return null;
+}
