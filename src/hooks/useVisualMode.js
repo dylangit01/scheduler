@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+// Here, mode is the different page in appointment directory
 export default function useVisualMode(initial) {
 	const [mode, setMode] = useState(initial);
 	const [history, setHistory] = useState([initial]);

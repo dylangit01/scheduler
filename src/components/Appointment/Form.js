@@ -5,7 +5,7 @@ import Button from '../Button';
 const Form = (props) => {
 	const [name, setName] = useState(props.name || '');
 	const [interviewer, setInterviewer] = useState(props.value || null);
-	const [error, setError] = useState('');
+	// const [error, setError] = useState('');
 
 	// Resetting inputs
 	const reset = () => {
@@ -14,17 +14,22 @@ const Form = (props) => {
 	};
 
 	// Save new interview
-	const validate = () => {
-		if (name === '') {
-			setError('Student name cannot be empty!');
-			return;
-		} else if (interviewer === null) {
-			setError('An interviewer must be selected');
-			return;
-		}
-		setError('');
+	// const validate = () => {
+	// 	if (name === '') {
+	// 		setError('Student name cannot be empty!');
+	// 		return;
+	// 	} else if (interviewer === null) {
+	// 		setError('An interviewer must be selected');
+	// 		return;
+	// 	}
+	// 	setError('');
+	// 	props.onSave(name, interviewer);
+	// };
+
+	const save = () => {
 		props.onSave(name, interviewer);
-	};
+		reset();
+	}
 
 	// Cancel fn
 	const cancel = () => {
@@ -54,7 +59,7 @@ const Form = (props) => {
 					<Button onClick={cancel} danger>
 						Cancel
 					</Button>
-					<Button onClick={validate} confirm>
+					<Button onClick={save} confirm>
 						Save
 					</Button>
 				</section>
