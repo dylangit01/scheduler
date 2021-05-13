@@ -103,7 +103,6 @@ export default function Application(props) {
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-					
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -118,9 +117,9 @@ export default function Application(props) {
 			</section>
 			<section className='schedule'>
 				{/* using help fn to return the array of appointments */}
-				{getAppointmentsForDay(state, state.day).map((appointment) => {
-					const interview = getInterview(state, appointment.interview);
-					return <Appointment key={appointment.id} time={appointment.time} interview={interview} />;
+				{getAppointmentsForDay(state, state.day).map(({ id, time, interview }) => {
+					const interviewDetails = getInterview(state, interview);
+					return <Appointment key={id} time={time} interview={interviewDetails} />;
 				})}
 				<Appointment key='last' time='5pm' />
 			</section>
