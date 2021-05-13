@@ -18,6 +18,26 @@ export const getAppointmentsForDay = (state, day) => {
 	return result;
 }
 
+export const getInterviewersForDay = (state, day) => {
+	// Make copy for day and interviewers
+	const daysCopy = [...state.days];
+	const interviewersCopy = { ...state.interviewers };
+
+	const result = [];
+	// find the day with interviewers
+	const filteredDay = daysCopy.filter((eachDay) => eachDay.name === day);
+	// if given day doesn't have interviewers/appointments, then return [];
+	const interviewersIds = filteredDay.length !== 0 ? filteredDay[0].interviewers : [];
+
+	for (const idKey in interviewersCopy) {
+		if (interviewersIds.includes(Number(idKey))) {
+			result.push(interviewersCopy[idKey]);
+		}
+	}
+	// when the day is not found, return original result []
+	return result;
+}
+
 export const getInterview = (state, interview) => {
 	if (!interview) return null;
 	const interviewersCopy = { ...state.interviewers };
