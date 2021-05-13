@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DayList from './DayList';
 import Appointment from './Appointment';
 import axios from 'axios';
-import { getAppointmentsForDay, getInterview } from '../helpers/selectors';
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from '../helpers/selectors';
 
 import 'components/Application.scss';
 
@@ -36,6 +36,7 @@ export default function Application(props) {
 			axios.get(ENDPOINT_INTERVIEWERS)])
 			.then((all) => {
 				const [days, appointments, interviewers] = all;
+				console.log(days.data, appointments.data, interviewers.data);
 				setState((prev) => ({...prev, 	// what is the difference without prev?
 					days: days.data,
 					appointments: appointments.data,
@@ -68,7 +69,8 @@ export default function Application(props) {
 				{/* using help fn to return the array of appointments */}
 				{getAppointmentsForDay(state, state.day).map(({ id, time, interview }) => {
 					const interviewDetails = getInterview(state, interview);
-					return <Appointment key={id} time={time} interview={interviewDetails} />;
+					const interviewers = getInterviewersForDay(state, state.day);
+					return <Appointment key={id} time={time} interview={interviewDetails} interviewers={interviewers} />;
 				})}
 				<Appointment key='last' time='5pm' />
 			</section>

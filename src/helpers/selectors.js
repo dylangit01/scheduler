@@ -1,42 +1,24 @@
 export const getAppointmentsForDay = (state, day) => {
-	// Make copy for day and appointments
 	const daysCopy = [...state.days];
 	const appointmentsCopy = { ...state.appointments };
 
-	const result = [];
-	// find the day with appointments
-	const filteredDay = daysCopy.filter((eachDay) => eachDay.name === day);
-	// if given day doesn't have appointment, then return [];
-	const appointmentIds = filteredDay.length !== 0 ? filteredDay[0].appointments : [];
-
-	for (const idKey in appointmentsCopy) {
-		if (appointmentIds.includes(Number(idKey))) {
-			result.push(appointmentsCopy[idKey]);
-		}
-	}
-	// when the day is not found, return original result []
-	return result;
-}
+	// find the day with interviewers
+	const foundDay = daysCopy.find((eachDay) => eachDay.name === day);
+	if (!foundDay) return [];
+	return foundDay.appointments.map((appointmentId) => appointmentsCopy[appointmentId]);
+};
 
 export const getInterviewersForDay = (state, day) => {
-	// Make copy for day and interviewers
 	const daysCopy = [...state.days];
 	const interviewersCopy = { ...state.interviewers };
 
-	const result = [];
 	// find the day with interviewers
-	const filteredDay = daysCopy.filter((eachDay) => eachDay.name === day);
-	// if given day doesn't have interviewers/appointments, then return [];
-	const interviewersIds = filteredDay.length !== 0 ? filteredDay[0].interviewers : [];
-
-	for (const idKey in interviewersCopy) {
-		if (interviewersIds.includes(Number(idKey))) {
-			result.push(interviewersCopy[idKey]);
-		}
-	}
-	// when the day is not found, return original result []
-	return result;
-}
+	const foundDay = daysCopy.find((eachDay) => eachDay.name === day);
+	if (!foundDay) return [];
+	return foundDay.interviewers.map(interviewId => (
+		interviewersCopy[interviewId]
+	))
+};
 
 export const getInterview = (state, interview) => {
 	if (!interview) return null;
@@ -45,9 +27,9 @@ export const getInterview = (state, interview) => {
 	for (const key in interviewersCopy) {
 		if (interview.interviewer === interviewersCopy[key].id) {
 			// interviewer will overwrite original interviewer data
-			return{...interview, interviewer: interviewersCopy[key]}
+			return { ...interview, interviewer: interviewersCopy[key] };
 		}
 	}
 	// If no match, return null
 	return null;
-}
+};

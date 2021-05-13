@@ -6,7 +6,7 @@ import Form from './Form';
 import './styles.scss';
 import useVisualMode from '../../hooks/useVisualMode';
 
-const Appointment = ({ interview, time }) => {
+const Appointment = ({ interviewers, interview, time }) => {
 	const EMPTY = 'EMPTY';
 	const SHOW = 'SHOW';
 	const CREATE = 'CREATE';
@@ -20,7 +20,7 @@ const Appointment = ({ interview, time }) => {
 			{/* cannot use ternary operator as more two views */}
 			{mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
 			{mode === CREATE && (
-				<Form interviewers={[]} onCancel={() => back()} />			// Use the back function to return to the EMPTY state when the cancel btn is clicked.
+				<Form interviewers={interviewers} onCancel={() => back()} /> // Use the back function to return to the EMPTY state when the cancel btn is clicked.
 			)}
 			{mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} />}
 		</article>
