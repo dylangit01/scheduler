@@ -15,6 +15,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	const SAVING = 'SAVING';
 	const DELETE = 'DELETE';
 	const CONFIRM = 'CONFIRM'
+	const EDIT = 'EDIT'
 
 	// Whenever use custom Hook, destructuring its properties first:
 	const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
@@ -26,17 +27,15 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			interviewer,
 		};
 		transition(SAVING);
-
 		bookInterview(id, interview)
 			.then(() => transition(SHOW))
 	};
 
 	const onDelete = () => {
-	
+		// transition needs add second argument to back to EMPTY page
 		transition(DELETE,true)
 		cancelInterview(id)
 			.then(() => transition(EMPTY))
-		
 	};
 
 	return (
@@ -44,11 +43,36 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			<Header time={time} />
 			{/* cannot use ternary operator as more two views */}
 			{mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-			{mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onDelete={()=>transition(CONFIRM)} />}
+			{mode === SHOW && (
+				<Show
+					student={interview.student}
+					interviewer={interview.interviewer}
+					onEdit={() => transition(EDIT)}
+					onDelete={() => transition(CONFIRM)}
+				/>
+			)}
+
 			{mode === CREATE && (
 				<Form interviewers={interviewers} onSave={save} onCancel={() => back()} /> // Use the back function to return to the EMPTY state when the cancel btn is clicked.
 			)}
-			{mode === CONFIRM && <Confirm message='Are you sure you would like to delete?' onConfirm={()=>onDelete()} onCancel={()=>back()} />}
+
+			{mode === EDIT && (
+				<Form
+					interviewers={interviewers}
+					value={interview.interviewer.id}
+					name={interview.student}
+					onSave={save}
+					onCancel={() => back()}
+				/>
+			)}
+
+			{mode === CONFIRM && (
+				<Confirm
+					message='Are you sure you would like to delete?'
+					onConfirm={() => onDelete()}
+					onCancel={() => back()}
+				/>
+			)}
 			{mode === SAVING && <Status message='Saving' />}
 			{mode === DELETE && <Status message='Deleting' />}
 		</article>
