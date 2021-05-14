@@ -28,7 +28,6 @@ const useApplicationData = () => {
 		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
 			(all) => {
 				const [days, appointments, interviewers] = all;
-				// console.log(days.data, appointments.data, interviewers.data);
 				setState((prev) => ({
 					...prev, // what is the difference without prev: prev can let dependency array not depends solely on days/appointments/reviewers
 					days: days.data,
