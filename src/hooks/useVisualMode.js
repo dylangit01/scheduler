@@ -6,7 +6,8 @@ export default function useVisualMode(initial) {
 
 	const transition = function (mode, replace = false) {
 		if (replace) {
-			setHistory([history.pop(), ...history, mode]);
+			// const temp = history.slice(0, -1)
+			// setHistory([history.pop()]);
 			setMode(mode);
 		} else {
 			setMode(mode);
@@ -16,11 +17,26 @@ export default function useVisualMode(initial) {
 
 	const back = function () {
 		if (history.length > 1) {
-			// history.pop();			// Is this bed practice for pop history directly?
-			setHistory([history.pop(), ...history]);
-			setMode(history[history.length - 1]);
+			let temp = history.slice(0, -1);
+			setHistory([...temp]);
+			setMode(history[history.length - 2]);
 		}
 	};
 
 	return { mode, transition, back };
 }
+
+
+
+
+// if (replace) {
+// 	setMode(mode)
+// } else {
+// 	setHistory([...history, mode]);
+// 	setMode(mode);
+// }
+
+// if (history.length > 1) {
+// 	setHistory(history.slice(0, -1))
+// 	setMode(history[history.length - 2])
+// }

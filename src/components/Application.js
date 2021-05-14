@@ -47,6 +47,7 @@ export default function Application(props) {
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
 	return (
+
 		<main className='layout'>
 			<section className='sidebar'>
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
