@@ -39,6 +39,20 @@ const useApplicationData = () => {
 		);
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
+	const foundSpotsHelper = () => {
+		// confirm available spots:
+		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);
+		let availableSpots = 0;
+		if (!foundDay) {
+			availableSpots = 5;
+		} else {
+			availableSpots = foundDay.appointments.filter(
+				(appointmentId) => state.appointments[appointmentId].interview === null
+			).length;
+		}
+		return availableSpots;
+	};
+
 	// create bookInterview to pass down and fetch id & interview data when Form btn saved
 	const bookInterview = (id, interview) => {
 		const appointment = {
@@ -53,14 +67,25 @@ const useApplicationData = () => {
 			[id]: appointment,
 		};
 
+		const remainSpots = foundSpotsHelper() - 1;
+
+		let days = state.days.map((eachDay) => {
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainSpots } : eachDay;
+		});
+
+		// for (let i = 0; i < state.days.length; i++){
+		// 	if (state.days[i].id === foundDay.id) {
+		// 		daysCopy.splice(i, 1, {...foundDay, spots: availableSpots})
+		// 	}
+		// }
+
 		// send axios put request to update the database, and change endpoint to "8001":
 		return axios
 			.put(`http://localhost:8001/api/appointments/${id}`, { interview })
-			.then(() => setState({ ...state, appointments }));
+			.then(() => setState({ ...state, appointments, days }));
 	};
 
 	const cancelInterview = (id) => {
-		console.log(id);
 		const appointment = {
 			...state.appointments[id],
 			interview: null,
@@ -71,11 +96,17 @@ const useApplicationData = () => {
 			[id]: appointment,
 		};
 
+		const remainSpots = foundSpotsHelper() + 1;
+
+		let days = state.days.map((eachDay) => {
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainSpots } : eachDay;
+		});
+
 		return axios
 			.delete(`http://localhost:8001/api/appointments/${id}`)
-			.then(() => setState({ ...state, appointments }));
+			.then(() => setState({ ...state, appointments, days }));
 	};
 	return { state, setDay, bookInterview, cancelInterview };
-}
+};
 
 export default useApplicationData;
