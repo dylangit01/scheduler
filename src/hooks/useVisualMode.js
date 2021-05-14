@@ -9,6 +9,7 @@ export default function useVisualMode(initial) {
 			// const temp = history.slice(0, -1)
 			// setHistory([history.pop()]);
 			setMode(mode);
+			setHistory([...history]);				// this line is for Double back for ERROR_SAVE
 		} else {
 			setMode(mode);
 			setHistory([...history, mode]);

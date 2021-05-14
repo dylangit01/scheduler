@@ -34,7 +34,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 		transition(SAVING);
 		bookInterview(id, interview)
 			.then(() => transition(SHOW))
-			.catch(() => transition(ERROR_SAVE))
+			.catch(() => transition(ERROR_SAVE, true))
 	};
 
 	const onDelete = () => {
@@ -42,13 +42,13 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 		transition(DELETE,true)
 		cancelInterview(id)
 			.then(() => transition(EMPTY))
-			.catch(() => transition(ERROR_DELETE));
+			.catch(() => transition(ERROR_DELETE, true));
 	};
 
-	const onClose = () => {
-		mode === ERROR_SAVE && transition(EMPTY);
-		mode === ERROR_DELETE && transition(SHOW)
-	}
+	// const onClose = () => {
+	// 	mode === ERROR_SAVE && transition(EMPTY);
+	// 	mode === ERROR_DELETE && transition(SHOW)
+	// }
 
 	return (
 		<article className='appointment'>
@@ -87,8 +87,9 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			)}
 			{mode === SAVING && <Status message='Saving' />}
 			{mode === DELETE && <Status message='Deleting' />}
-			{mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={onClose} />}
-			{mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={onClose} />}
+			{mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={back} />}
+			{/* The ERROR_SAVE not able to back to EMPTY ??????????? */}
+			{mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={back} />}
 		</article>
 	);
 };
