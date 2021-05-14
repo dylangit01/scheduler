@@ -37,7 +37,7 @@ export default function Application(props) {
 			.then((all) => {
 				const [days, appointments, interviewers] = all;
 				// console.log(days.data, appointments.data, interviewers.data);
-				setState((prev) => ({...prev, 	// what is the difference without prev?
+				setState((prev) => ({...prev, 	// what is the difference without prev: prev can let dependency array not depends solely on days/appointments/reviewers
 					days: days.data,
 					appointments: appointments.data,
 					interviewers: interviewers.data,
@@ -46,9 +46,22 @@ export default function Application(props) {
 		);
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
-	// create bookInterview to pass down
+	// create bookInterview to pass down and fetch id & interview data when Form btn saved
 	const bookInterview = (id, interview) => {
-		console.log(id, interview);
+		const appointment = {
+			// replace the current value of the interview key with the new value
+			...state.appointments[id],
+			interview: { ...interview },
+		};
+
+		// update the appointments object by updating single appointment
+		const appointments = {
+			...state.appointments,
+			[id]: appointment,
+		};
+
+		// update the top level state
+		setState({...state, appointments})
 	}
 	
 	return (
