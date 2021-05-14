@@ -36,7 +36,7 @@ export default function Application(props) {
 			axios.get(ENDPOINT_INTERVIEWERS)])
 			.then((all) => {
 				const [days, appointments, interviewers] = all;
-				console.log(days.data, appointments.data, interviewers.data);
+				// console.log(days.data, appointments.data, interviewers.data);
 				setState((prev) => ({...prev, 	// what is the difference without prev?
 					days: days.data,
 					appointments: appointments.data,
@@ -46,14 +46,17 @@ export default function Application(props) {
 		);
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
+	// create bookInterview to pass down
+	const bookInterview = (id, interview) => {
+		console.log(id, interview);
+	}
+	
 	return (
-
 		<main className='layout'>
 			<section className='sidebar'>
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -68,12 +71,21 @@ export default function Application(props) {
 			</section>
 			<section className='schedule'>
 				{/* using help fn to return the array of appointments */}
-				{getAppointmentsForDay(state, state.day).map(({ id, time, interview }) => {
-					const interviewDetails = getInterview(state, interview);
+				{getAppointmentsForDay(state, state.day).map((appointment) => {
+					const interview = getInterview(state, appointment.interview);
 					const interviewers = getInterviewersForDay(state, state.day);
-					return <Appointment key={id} time={time} interview={interviewDetails} interviewers={interviewers} />;
+					return (
+						<Appointment
+							key={appointment.id}
+							id={appointment.id}
+							time={appointment.time}
+							interview={interview}
+							interviewers={interviewers}
+							bookInterview={bookInterview}
+						/>
+					);
 				})}
-				<Appointment key='last' time='5pm' />
+				<Appointment bookInterview={bookInterview} key='last' time='5pm' />
 			</section>
 		</main>
 	);
