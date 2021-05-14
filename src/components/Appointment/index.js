@@ -45,10 +45,10 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			.catch(() => transition(ERROR_DELETE));
 	};
 
-	// const onClose = () => {
-	// 	transition(SHOW, true)
-	// 	back()
-	// }
+	const onClose = () => {
+		mode === ERROR_SAVE && transition(EMPTY);
+		mode === ERROR_DELETE && transition(SHOW)
+	}
 
 	return (
 		<article className='appointment'>
@@ -87,8 +87,8 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			)}
 			{mode === SAVING && <Status message='Saving' />}
 			{mode === DELETE && <Status message='Deleting' />}
-			{mode === ERROR_SAVE && <Error message='Could not save appointment'  />}
-			{mode === ERROR_DELETE && <Error message='Could not delete appointment'  />}
+			{mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={onClose} />}
+			{mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={onClose} />}
 		</article>
 	);
 };
