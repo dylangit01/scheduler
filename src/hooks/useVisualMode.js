@@ -15,18 +15,16 @@ export default function useVisualMode(initial) {
 		}
 	};
 
-	const back = function () {
+	const back = function() {
 		if (history.length > 1) {
 			let temp = history.slice(0, -1);
-			setHistory([...temp]);
-			setMode(history[history.length - 2]);
+			setHistory(temp);
+			setMode(temp[temp.length - 1]);
 		}
 	};
 
 	return { mode, transition, back };
 }
-
-
 
 
 // if (replace) {

@@ -7,11 +7,12 @@ import Status from './Status';
 import './styles.scss';
 import useVisualMode from '../../hooks/useVisualMode';
 
-const Appointment = ({ interviewers, interview, time, bookInterview, id }) => {
+const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelInterview }) => {
 	const EMPTY = 'EMPTY';
 	const SHOW = 'SHOW';
 	const CREATE = 'CREATE';
 	const SAVING = 'SAVING';
+	const DELETE = 'DELETE';
 
 	// Whenever use custom Hook, destructuring its properties first:
 	const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
@@ -23,10 +24,16 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id }) => {
 			interviewer,
 		};
 		transition(SAVING);
-		setTimeout(() => {
-			bookInterview(id, interview);
-			transition(SHOW);
-		}, 1000);
+
+		bookInterview(id, interview)
+			.then(() => transition(SHOW))
+	};
+
+	const onDelete = () => {
+		transition(DELETE,true)
+		cancelInterview(id)
+			.then(() => transition(EMPTY))
+		
 	};
 
 	return (
@@ -34,11 +41,12 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id }) => {
 			<Header time={time} />
 			{/* cannot use ternary operator as more two views */}
 			{mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-			{mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} />}
+			{mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onDelete={onDelete} />}
 			{mode === CREATE && (
 				<Form interviewers={interviewers} onSave={save} onCancel={() => back()} /> // Use the back function to return to the EMPTY state when the cancel btn is clicked.
 			)}
-			{mode === SAVING && <Status message='saving' />}
+			{mode === SAVING && <Status message='Saving' />}
+			{mode === DELETE && <Status message='Deleting' />}
 		</article>
 	);
 };

@@ -19,8 +19,8 @@ export default function Application(props) {
 	});
 	// setDay function can remain because we are only using it to update our DayList component.
 	// const setDay = (day) => setState((prev) => ({ ...prev, day }));
-	const setDay = (day) => setState({...state, day});
-	
+	const setDay = (day) => setState({ ...state, day });
+
 	// setDays fn will be refactored with fetch appointments fn:
 	// const setDays = (days) => setState((prev) => ({ ...prev, days }));		// why useEffect not complain now?
 
@@ -30,14 +30,12 @@ export default function Application(props) {
 		const ENDPOINT_INTERVIEWERS = '/api/interviewers';
 
 		// using Promise.all to fetch all data from three different endpoints and return them by order
-		Promise.all([
-			axios.get(ENDPOINT_DAY),
-			axios.get(ENDPOINT_APPOINTMENTS),
-			axios.get(ENDPOINT_INTERVIEWERS)])
-			.then((all) => {
+		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
+			(all) => {
 				const [days, appointments, interviewers] = all;
-				console.log(days.data, appointments.data, interviewers.data);
-				setState((prev) => ({...prev, 	// what is the difference without prev: prev can let dependency array not depends solely on days/appointments/reviewers
+				// console.log(days.data, appointments.data, interviewers.data);
+				setState((prev) => ({
+					...prev, // what is the difference without prev: prev can let dependency array not depends solely on days/appointments/reviewers
 					days: days.data,
 					appointments: appointments.data,
 					interviewers: interviewers.data,
@@ -60,20 +58,36 @@ export default function Application(props) {
 			[id]: appointment,
 		};
 
-		// update the top level state
-		setState({ ...state, appointments })
-		
 		// send axios put request to update the database, and change endpoint to "8001":
-		axios.put(`http://localhost:8001/api/appointments/${id}`, { interview });
-		
-	}
-	
+		return axios
+			.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+			.then(() => setState({ ...state, appointments }));
+	};
+
+	const cancelInterview = (id) => {
+		console.log(id);
+		const appointment = {
+			...state.appointments[id],
+			interview: null,
+		};
+
+		const appointments = {
+			...state.appointments,
+			[id]: appointment,
+		};
+
+		return axios
+			.delete(`http://localhost:8001/api/appointments/${id}`)
+			.then(() => setState({ ...state, appointments }));
+	};
+
 	return (
 		<main className='layout'>
 			<section className='sidebar'>
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
+					
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -99,10 +113,11 @@ export default function Application(props) {
 							interview={interview}
 							interviewers={interviewers}
 							bookInterview={bookInterview}
+							cancelInterview={cancelInterview}
 						/>
 					);
 				})}
-				<Appointment bookInterview={bookInterview} key='last' time='5pm' />
+				<Appointment bookInterview={bookInterview} cancelInterview={cancelInterview} key='last' time='5pm' />
 			</section>
 		</main>
 	);
