@@ -21,7 +21,10 @@ const useApplicationDataRefactor = () => {
 		const ENDPOINT_APPOINTMENTS = '/api/appointments';
 		const ENDPOINT_INTERVIEWERS = '/api/interviewers';
 
-		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
+		Promise.all([
+			axios.get(ENDPOINT_DAY),
+			axios.get(ENDPOINT_APPOINTMENTS),
+			axios.get(ENDPOINT_INTERVIEWERS)]).then(
 			(all) => {
 				const [days, appointments, interviewers] = all;
 				dispatch({
@@ -37,18 +40,18 @@ const useApplicationDataRefactor = () => {
 	useEffect(() => {
 		const socket = new WebSocket('ws://localhost:8001');
 
-		const message = {
-			type: 'SET_INTERVIEW',
-			id,
-			interview: {
-				student,
-				interviewer: {
-					id,
-					name,
-					avatar,
-				},
-			},
-		};
+		// const message = {
+		// 	type: 'SET_INTERVIEW',
+		// 	id,
+		// 	interview: {
+		// 		student,
+		// 		interviewer: {
+		// 			id,
+		// 			name,
+		// 			avatar,
+		// 		},
+		// 	},
+		// };
 
 		socket.onopen = function (event) {
 			socket.send('ping');
@@ -65,14 +68,10 @@ const useApplicationDataRefactor = () => {
 	const spotsHelper = () => {
 		// confirm available spots:
 		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);
-		let availableSpots = 0;
-		if (!foundDay) {
-			availableSpots = 5;
-		} else {
+		let availableSpots = 5;
 			availableSpots = foundDay.appointments.filter(
 				(appointmentId) => state.appointments[appointmentId].interview === null
 			).length;
-		}
 		return availableSpots;
 	};
 
@@ -82,11 +81,12 @@ const useApplicationDataRefactor = () => {
 
 		const remainingSpots = spotsHelper() - 1;
 
+		// update the foundDay's spots
 		let days = state.days.map((eachDay) => {
 			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
-		dispatch({ type: SET_INTERVIEW, id, interview, appointments, days });
+		dispatch({ type: SET_INTERVIEW, appointments, days });
 		return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview });
 	};
 
@@ -99,8 +99,10 @@ const useApplicationDataRefactor = () => {
 			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
-		dispatch({ type: SET_INTERVIEW, id, interview: null, appointments, days });
-		return axios.delete(`http://localhost:8001/api/appointments/${id}`);
+		// only dispatch when request is successfully sent
+		return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+			.then(() => dispatch({ type: SET_INTERVIEW, appointments, days }))
+			.catch((err)=>{ throw new Error(err)})
 	};
 	return { state, setDay, bookInterview, cancelInterview };
 };

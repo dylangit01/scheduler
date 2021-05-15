@@ -5,13 +5,12 @@ export default function useVisualMode(initial) {
 	const [history, setHistory] = useState([initial]);
 
 	const transition = function (mode, replace = false) {
+		setMode(mode);
 		if (replace) {
 			// const temp = history.slice(0, -1)
 			// setHistory([history.pop()]);
-			setMode(mode);
 			setHistory([...history]);				// this line is for Double back for ERROR_SAVE
 		} else {
-			setMode(mode);
 			setHistory([...history, mode]);
 		}
 	};
@@ -26,6 +25,7 @@ export default function useVisualMode(initial) {
 
 	return { mode, transition, back };
 }
+
 
 
 // if (replace) {
