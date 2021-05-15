@@ -41,7 +41,7 @@ const useApplicationData = () => {
 		);
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
-	const foundSpotsHelper = () => {
+	const spotsHelper = () => {
 		// confirm available spots:
 		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);
 		let availableSpots = 0;
@@ -64,15 +64,12 @@ const useApplicationData = () => {
 		};
 
 		// update the appointments object by updating single appointment
-		const appointments = {
-			...state.appointments,
-			[id]: appointment,
-		};
+		const appointments = { ...state.appointments, [id]: appointment, };
 
-		const remainSpots = foundSpotsHelper() - 1;
+		const remainingSpots = spotsHelper() - 1;
 
 		let days = state.days.map((eachDay) => {
-			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainSpots } : eachDay;
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
 		// for (let i = 0; i < state.days.length; i++){
@@ -88,20 +85,14 @@ const useApplicationData = () => {
 	};
 
 	const cancelInterview = (id) => {
-		const appointment = {
-			...state.appointments[id],
-			interview: null,
-		};
+		const appointment = { ...state.appointments[id], interview: null, };
 
-		const appointments = {
-			...state.appointments,
-			[id]: appointment,
-		};
+		const appointments = { ...state.appointments, [id]: appointment, };
 
-		const remainSpots = foundSpotsHelper() + 1;
+		const remainingSpots = spotsHelper() + 1;
 
 		let days = state.days.map((eachDay) => {
-			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainSpots } : eachDay;
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
 		return axios

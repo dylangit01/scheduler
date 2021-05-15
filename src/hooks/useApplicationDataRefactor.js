@@ -63,6 +63,7 @@ const useApplicationDataRefactor = () => {
 
 	},[])
 
+	// 
 	const spotsHelper = () => {
 		// confirm available spots:
 		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);
@@ -81,10 +82,10 @@ const useApplicationDataRefactor = () => {
 		const appointment = { ...state.appointments[id], interview: { ...interview } };
 		const appointments = { ...state.appointments, [id]: appointment };
 
-		const remainSpots = spotsHelper() - 1;
+		const remainingSpots = spotsHelper() - 1;
 
 		let days = state.days.map((eachDay) => {
-			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainSpots } : eachDay;
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
 		dispatch({ type: SET_INTERVIEW, id, interview, appointments, days });
@@ -95,9 +96,9 @@ const useApplicationDataRefactor = () => {
 		const appointment = { ...state.appointments[id], interview: null };
 		const appointments = { ...state.appointments, [id]: appointment };
 
-		const remainSpots = spotsHelper() + 1;
+		const remainingSpots = spotsHelper() + 1;
 		let days = state.days.map((eachDay) => {
-			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainSpots } : eachDay;
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
 		dispatch({ type: SET_INTERVIEW, id, interview: null, appointments, days });
