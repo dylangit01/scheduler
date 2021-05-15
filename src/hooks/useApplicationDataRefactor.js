@@ -86,8 +86,8 @@ const useApplicationDataRefactor = () => {
 			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		});
 
-		dispatch({ type: SET_INTERVIEW, appointments, days });
-		return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview });
+		return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+			.then(() => dispatch({ type: SET_INTERVIEW, appointments, days }));
 	};
 
 	const cancelInterview = (id) => {
