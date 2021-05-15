@@ -3,13 +3,14 @@ import DayList from './DayList';
 import Appointment from './Appointment';
 
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from '../helpers/selectors';
-import useApplicationData from '../hooks/useApplicationData'
+// import useApplicationData from '../hooks/useApplicationData'
+import useApplicationDataRefactor from '../hooks/useApplicationDataRefactor'
 
 import 'components/Application.scss';
 
 export default function Application(props) {
 
-	const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
+	const { state, setDay, bookInterview, cancelInterview } = useApplicationDataRefactor();
 
 	return (
 		<main className='layout'>
