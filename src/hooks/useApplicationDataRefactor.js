@@ -21,7 +21,11 @@ const useApplicationDataRefactor = () => {
 		const ENDPOINT_APPOINTMENTS = '/api/appointments';
 		const ENDPOINT_INTERVIEWERS = '/api/interviewers';
 
-		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
+		Promise.all([
+			axios.get(ENDPOINT_DAY),
+			axios.get(ENDPOINT_APPOINTMENTS),
+			axios.get(ENDPOINT_INTERVIEWERS)])
+			.then(
 			(all) => {
 				const [days, appointments, interviewers] = all;
 				dispatch({
@@ -33,6 +37,31 @@ const useApplicationDataRefactor = () => {
 			}
 		);
 	}, []);
+
+	useEffect(() => {
+		const socket = new WebSocket('ws://localhost:8001');
+		// socket.addEventListener('open', function (event) {
+		// 	socket.send('Hello Server!');
+		// });
+
+		// const message = {
+		// 	type: 'NOTFICATION',
+		// 	content: 'The record was created.',
+		// 	severity: 'LOW',
+		// 	timestamp: 387250200000,
+		// };
+		
+		socket.onopen = function (event) {
+			socket.send('ping');
+		};
+
+		socket.onmessage = function (event) {
+			console.log(event.data);
+		};
+
+		// return socket.close();
+
+	},[])
 
 	const spotsHelper = () => {
 		// confirm available spots:
