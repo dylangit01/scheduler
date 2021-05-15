@@ -25,7 +25,10 @@ const useApplicationData = () => {
 		const ENDPOINT_INTERVIEWERS = '/api/interviewers';
 
 		// using Promise.all to fetch all data from three different endpoints and return them by order
-		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
+		Promise.all([
+			axios.get(ENDPOINT_DAY),
+			axios.get(ENDPOINT_APPOINTMENTS),
+			axios.get(ENDPOINT_INTERVIEWERS)]).then(
 			(all) => {
 				const [days, appointments, interviewers] = all;
 				setState((prev) => ({
