@@ -40,6 +40,9 @@ const Form = (props) => {
 	return (
 		<main className='appointment__card appointment__card--create'>
 			<section className='appointment__card-left'>
+				
+				{/* Form component is the parent component that passes down interviewer to InterviewList component 
+						and value is from Appointment component, it can be edited in Form component */}
 				<form autoComplete='off' onSubmit={(e) => e.preventDefault()}>
 					<input
 						className='appointment__create-input text--semi-bold'
@@ -50,8 +53,7 @@ const Form = (props) => {
 						onChange={(e) => setName(e.target.value)}
 					/>
 				</form>
-				{/* Form component is the parent component who passes down interviewer to InterviewList component 
-						But value is from the parent component of Form component, it can be edited in Form component */}
+
 				<InterviewerList interviewers={props.interviewers} value={interviewer} onChange={setInterviewer} />
 			</section>
 			<section className='appointment__card-right'>
