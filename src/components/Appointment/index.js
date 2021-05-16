@@ -20,6 +20,8 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	const EDIT = 'EDIT'
 	const ERROR_SAVE = 'ERROR_SAVE';
 	const ERROR_DELETE = 'ERROR_DELETE';
+	const ERROR_NAME = 'ERROR_NAME';
+	const ERROR_INTERVIEWER = 'ERROR_INTERVIEWER';
 
 
 	// Whenever use custom Hook, destructuring its properties first:
@@ -27,6 +29,14 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 
 	// create save function to pass down to Form
 	const save = (name, interviewer) => {
+		if (!name) {
+			transition(ERROR_NAME, true)
+			return
+		}
+		if (interviewer === null) {
+			transition(ERROR_INTERVIEWER, true);
+			return
+		}
 		const interview = {
 			student: name,
 			interviewer,
@@ -89,6 +99,8 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			{mode === DELETE && <Status message='Deleting' />}
 			{mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={back} />}
 			{mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={back} />}
+			{mode === ERROR_NAME && <Error message='Student name cannot be empty' onClose={back} />}
+			{mode === ERROR_INTERVIEWER && <Error message='No interviewer has been selected' onClose={back} />}
 		</article>
 	);
 };

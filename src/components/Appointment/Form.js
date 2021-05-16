@@ -28,6 +28,7 @@ const Form = (props) => {
 
 	const save = () => {
 		props.onSave(name, interviewer);
+		console.log(interviewer === null);
 		reset();
 	}
 
@@ -40,7 +41,7 @@ const Form = (props) => {
 	return (
 		<main className='appointment__card appointment__card--create'>
 			<section className='appointment__card-left'>
-				
+
 				{/* Form component is the parent component that passes down interviewer to InterviewList component 
 						and value is from Appointment component, it can be edited in Form component */}
 				<form autoComplete='off' onSubmit={(e) => e.preventDefault()}>
