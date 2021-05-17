@@ -1,6 +1,7 @@
 import React from 'react';
 import './InterviewerList.scss';
 import InterviewerListItem from './InterviewerListItem';
+import PropTypes from 'prop-types'
 
 // In List component, Using the generic name: "value" and "onChange" to represent the interviewer and setInterviewer fn
 // So that if any interviewer as the value passed down from parent component (say app.js), 
@@ -28,5 +29,10 @@ const InterviewerList = ({ interviewers, value, onChange }) => {
 		</section>
 	);
 };
+
+// add interviewers type validation
+InterviewerList.propTypes = {
+	interviewers:PropTypes.array.isRequired
+}
 
 export default InterviewerList;
