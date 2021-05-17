@@ -29,7 +29,7 @@ const Form = (props) => {
 	const save = () => {
 		props.onSave(name, interviewer);
 		reset();
-	}
+	};
 
 	// Cancel fn
 	const cancel = () => {
@@ -40,7 +40,6 @@ const Form = (props) => {
 	return (
 		<main className='appointment__card appointment__card--create'>
 			<section className='appointment__card-left'>
-
 				{/* Form component is the parent component that passes down interviewer to InterviewList component 
 						and value is from Appointment component, it can be edited in Form component */}
 				<form autoComplete='off' onSubmit={(e) => e.preventDefault()}>
@@ -54,6 +53,10 @@ const Form = (props) => {
 					/>
 				</form>
 
+				{/* InterviewList component using generic name onChange to pass down the setInterviewer fn 
+						to InterviewListItem component, and it will return back the setInterviewer value to save function 
+						which receive name and interviewer two arguments, name is created by input tag					
+						*/}
 				<InterviewerList interviewers={props.interviewers} value={interviewer} onChange={setInterviewer} />
 			</section>
 			<section className='appointment__card-right'>

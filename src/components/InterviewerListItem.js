@@ -10,8 +10,8 @@ const InterviewerListItem = ({ name, avatar, selected, setInterviewer }) => {
 	});
 
 	return (
+			// no need to pass the id in onClick fn as InterviewerList already setup id within the fn
 		<li className={interviewListClass} onClick={setInterviewer}>
-			{/* no need to pass the id in onClick fn as InterviewerList already setup id within the fn */}
 			<img className='interviewers__item-image' src={avatar} alt={name} />
 			{selected && name}
 		</li>

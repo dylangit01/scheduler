@@ -30,14 +30,15 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	// create save function to pass down to Form
 	const save = (name, interviewer) => {
 		if (!name) {
-			transition(ERROR_NAME, true)
-			return
+			transition(ERROR_NAME, true);
+			return;
 		}
 		if (interviewer === null) {
 			transition(ERROR_INTERVIEWER, true);
-			return
+			return;
 		}
-		// save fn is in Form component to create or update current appointment
+		// save fn is in Form component to create or update current appointment with name and interviewer,
+		// and they will be update by using bookInterview fn
 		const interview = {
 			student: name,
 			interviewer,
@@ -45,7 +46,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 		transition(SAVING);
 		bookInterview(id, interview)
 			.then(() => transition(SHOW))
-			.catch(() => transition(ERROR_SAVE, true))
+			.catch(() => transition(ERROR_SAVE, true));
 	};
 
 	const onDelete = () => {
