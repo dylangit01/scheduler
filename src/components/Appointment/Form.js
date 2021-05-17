@@ -28,7 +28,6 @@ const Form = (props) => {
 
 	const save = () => {
 		props.onSave(name, interviewer);
-		console.log(interviewer === null);
 		reset();
 	}
 

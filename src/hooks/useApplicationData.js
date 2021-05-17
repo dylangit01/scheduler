@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useApplicationData = () => {
-	// const [day, setDay] = useState('Monday');
-	// const [days, setDays] = useState([]);
 
 	// Combine states:
 	const [state, setState] = useState({
@@ -12,7 +10,7 @@ const useApplicationData = () => {
 		appointments: {},
 		interviewers: {},
 	});
-	// setDay function can remain because we are only using it to update our DayList component.
+	// setDay function can remain because we are only using it to update DayList component.
 	// const setDay = (day) => setState((prev) => ({ ...prev, day }));
 	const setDay = (day) => setState({ ...state, day });
 
@@ -28,7 +26,8 @@ const useApplicationData = () => {
 		Promise.all([
 			axios.get(ENDPOINT_DAY),
 			axios.get(ENDPOINT_APPOINTMENTS),
-			axios.get(ENDPOINT_INTERVIEWERS)]).then(
+			axios.get(ENDPOINT_INTERVIEWERS)])
+			.then(
 			(all) => {
 				const [days, appointments, interviewers] = all;
 				setState((prev) => ({
@@ -41,6 +40,8 @@ const useApplicationData = () => {
 		);
 	}, []); //When a component does not have any dependencies, but we only want it to run once, we have to pass useEffect an empty array.
 
+	// update spots helper fn: state will be changed when only using useState/setState to update, 
+	// so in setState, have to usd spread operator to shallow copy state
 	const spotsHelper = () => {
 		// confirm available spots:
 		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);
@@ -57,14 +58,11 @@ const useApplicationData = () => {
 
 	// create bookInterview to pass down and fetch id & interview data when Form btn saved
 	const bookInterview = (id, interview) => {
-		const appointment = {
-			// replace the current value of the interview key with the new value
-			...state.appointments[id],
-			interview: { ...interview },
-		};
+		// update the current appointment.interview under id with the new value
+		const appointment = { ...state.appointments[id], interview: { ...interview } };
 
 		// update the appointments object by updating single appointment
-		const appointments = { ...state.appointments, [id]: appointment, };
+		const appointments = { ...state.appointments, [id]: appointment };
 
 		const remainingSpots = spotsHelper() - 1;
 
@@ -85,9 +83,9 @@ const useApplicationData = () => {
 	};
 
 	const cancelInterview = (id) => {
-		const appointment = { ...state.appointments[id], interview: null, };
+		const appointment = { ...state.appointments[id], interview: null };
 
-		const appointments = { ...state.appointments, [id]: appointment, };
+		const appointments = { ...state.appointments, [id]: appointment };
 
 		const remainingSpots = spotsHelper() + 1;
 

@@ -3,8 +3,8 @@ import DayList from './DayList';
 import Appointment from './Appointment';
 
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from '../helpers/selectors';
-// import useApplicationData from '../hooks/useApplicationData'
-import useApplicationDataRefactor from '../hooks/useApplicationDataRefactor'
+// import useApplicationData from '../hooks/useApplicationData'			//-->useState
+import useApplicationDataRefactor from '../hooks/useApplicationDataRefactor'			//-->refactor with reducer
 
 import 'components/Application.scss';
 
@@ -32,6 +32,7 @@ export default function Application(props) {
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
 			</section>
 			<section className='schedule'>
+				
 				{/* using help fn to return the array of appointments */}
 				{getAppointmentsForDay(state, state.day).map((appointment) => {
 					const interview = getInterview(state, appointment.interview);

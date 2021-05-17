@@ -26,7 +26,7 @@ export const getInterview = (state, interview) => {
 
 	for (const key in interviewersCopy) {
 		if (interview.interviewer === interviewersCopy[key].id) {
-			// interviewer will overwrite original interviewer data
+			// interviewer will overwrite original interviewer data (student's name will be unchanged by using "...interview")
 			return { ...interview, interviewer: interviewersCopy[key] };
 		}
 	}

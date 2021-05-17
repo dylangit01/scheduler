@@ -75,7 +75,7 @@ const useApplicationDataRefactor = () => {
 		// };
 	}, []);
 
-	// update spots helper fn
+	// update spots helper fn 
 	const spotsHelper = () => {
 		// confirm available spots:
 		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);

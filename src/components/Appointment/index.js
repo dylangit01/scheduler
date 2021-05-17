@@ -37,6 +37,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			transition(ERROR_INTERVIEWER, true);
 			return
 		}
+		// save fn is in Form component to create or update current appointment
 		const interview = {
 			student: name,
 			interviewer,
