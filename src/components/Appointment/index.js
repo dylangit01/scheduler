@@ -20,23 +20,12 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	const EDIT = 'EDIT'
 	const ERROR_SAVE = 'ERROR_SAVE';
 	const ERROR_DELETE = 'ERROR_DELETE';
-	const ERROR_NAME = 'ERROR_NAME';
-	const ERROR_INTERVIEWER = 'ERROR_INTERVIEWER';
-
 
 	// Whenever use custom Hook, destructuring its properties first:
 	const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
 	// create save function to pass down to Form
 	const save = (name, interviewer) => {
-		if (!name) {
-			transition(ERROR_NAME, true);
-			return;
-		}
-		if (interviewer === null) {
-			transition(ERROR_INTERVIEWER, true);
-			return;
-		}
 		// save fn is in Form component to create or update current appointment with name and interviewer,
 		// and they will be update by using bookInterview fn
 		const interview = {
@@ -101,8 +90,6 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			{mode === DELETE && <Status message='Deleting' />}
 			{mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={back} />}
 			{mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={back} />}
-			{mode === ERROR_NAME && <Error message='Student name cannot be empty' onClose={back} />}
-			{mode === ERROR_INTERVIEWER && <Error message='No interviewer has been selected' onClose={back} />}
 		</article>
 	);
 };
