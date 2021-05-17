@@ -52,7 +52,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	// }
 
 	return (
-		<article className='appointment'>
+		<article className='appointment' data-testid='appointment'>
 			<Header time={time} />
 			{/* cannot use ternary operator as more two views */}
 			{mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
