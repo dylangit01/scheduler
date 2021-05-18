@@ -71,7 +71,7 @@ describe('Form', () => {
 	it('calls onCancel and resets the input field', () => {
 		const onCancel = jest.fn();
 		const { getByText, getByPlaceholderText, queryByText } = render(
-			<Form interviewers={interviewers} name='Lydia Mill-Jones' onSave={jest.fn()} onCancel={onCancel} />
+			<Form interviewers={interviewers} name='Lydia Mill-Jones' onSave={jest.fn()} onCancel={onCancel}  />
 		);
 
 		fireEvent.click(getByText('Save'));

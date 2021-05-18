@@ -2,7 +2,7 @@ import React from 'react'
 
 const Show = ({student, interviewer, onEdit, onDelete}) => {
 	return (
-		<main className='appointment__card appointment__card--show'>
+		<main className='appointment__card appointment__card--show' >
 			<section className='appointment__card-left'>
 				<h2 className='text--regular'>{student}</h2>
 				<section className='interviewer'>
