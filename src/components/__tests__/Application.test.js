@@ -68,27 +68,30 @@ describe('Application', () => {
   });
   
   it('loads data, cancels an interview and increases the spots remaining for Monday by 1', async () => {
-		const { container, debug } = render(<Application />);
-		await waitForElement(() => getByText(container, 'Archie Cohen'));
+		const { container, debug } = render(<Application />); // 1. Render the Application
+		await waitForElement(() => getByText(container, 'Archie Cohen')); // 2. Wait until the text "Archie Cohen" is displayed.
 
+		// find the article with the appointment test id that has the name "Archie Cohen".
 		const appointment = getAllByTestId(container, 'appointment').find((appointment) =>
 			queryByText(appointment, 'Archie Cohen')
 		);
 
-		fireEvent.click(getByAltText(appointment, 'Delete'));
+		fireEvent.click(getByAltText(appointment, 'Delete')); // 3. Click the "Delete" button on the booked appointment.
 
-		expect(getByText(appointment, 'Are you sure you would like to delete?')).toBeInTheDocument();
-    
-    fireEvent.click(getByText(appointment, 'Confirm'));
+		expect(getByText(appointment, 'Are you sure you would like to delete?')).toBeInTheDocument(); // 4. Check that the confirmation message is shown.
 
-    expect(getByText(appointment, 'Deleting')).toBeInTheDocument();
-    
-    await waitForElement(() => getByAltText(appointment, 'Add'));
+		fireEvent.click(getByText(appointment, 'Confirm')); // 5. Click the "Confirm" button on the confirmation.
 
-    const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
+		expect(getByText(appointment, 'Deleting')).toBeInTheDocument(); // 6. Check that the element with the text "Deleting" is displayed.
+
+		await waitForElement(() => getByAltText(appointment, 'Add')); // 7. Wait until the element with the "Add" button is displayed.
+
+		// 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
+		const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
 		expect(getByText(day, '2 spots remaining')).toBeInTheDocument();
 	});
 
+ 
 
 
 
