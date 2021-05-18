@@ -33,23 +33,19 @@ const state = {
 	},
 };
 
-const updateSpots = function (dayName, days, appointments) {
-		
-			// confirm available spots:
-			const foundDay = days.find((eachDay) => eachDay.name === dayName);
-			let availableSpots = 5;
-			availableSpots = foundDay.appointments.filter(
-				(appointmentId) => appointments[appointmentId].interview === null
-			).length;
-	
-	const remainingSpots = availableSpots - 1;
+	const updateSpots = (day, days, appointments) => {
+		const foundDay = days.find((eachDay) => eachDay.name === day);
 
-	// update the foundDay's spots
-	let updays = days.map((eachDay) => {
-		return eachDay.appointments.includes(4) ? { ...eachDay, spots: remainingSpots } : eachDay;
-	});
-	return updays
-};
+		const remainingSpots = foundDay.appointments.filter(
+			(appointmentId) => appointments[appointmentId].interview === null
+		).length;
+
+		const updatedDays = days.map((eachDay) => {
+			return eachDay.appointments.includes(1) ? { ...eachDay, spots: remainingSpots } : eachDay;
+		});
+
+		return updatedDays;
+	};
 
 // This is the initial state
 console.log('\n*** Initial Days State\n', state.days);

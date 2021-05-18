@@ -79,7 +79,7 @@ const useApplicationDataRefactor = () => {
 		// };
 	}, []);
 
-	const updatedSpots = (days, appointments, id) => {
+	const updateSpots = (days, appointments, id) => {
 		// Function that finds the number of spots remaining for a given day
 		const foundDay = days.find((eachDay) => eachDay.name === state.day);
 
@@ -107,7 +107,7 @@ const useApplicationDataRefactor = () => {
 		const appointment = { ...state.appointments[id], interview: { ...interview } };
 		const appointments = { ...state.appointments, [id]: appointment };
 
-		const days = updatedSpots(state.days, appointments, id);
+		const days = updateSpots(state.days, appointments, id);
 
 		return axios
 			.put(`http://localhost:8001/api/appointments/${id}`, { interview })
@@ -118,7 +118,7 @@ const useApplicationDataRefactor = () => {
 		const appointment = { ...state.appointments[id], interview: null };
 		const appointments = { ...state.appointments, [id]: appointment };
 
-		const days = updatedSpots(state.days, appointments, id);
+		const days = updateSpots(state.days, appointments, id);
 
 		// only dispatch when request is successfully sent
 		return axios
