@@ -148,8 +148,6 @@ describe('Application', () => {
     expect(getByText(appointment, 'Error')).toBeInTheDocument();
   });
   
-
-
 	it('shows the delete error when failing to delete an existing appointment', async () => {
     axios.delete.mockRejectedValueOnce();
     
