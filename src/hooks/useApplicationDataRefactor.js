@@ -51,13 +51,13 @@ const useApplicationDataRefactor = () => {
 		// socket.onmessage = function (event) {
 		// 	const data = JSON.parse(event.data);
 		// 	if (data.type === 'SET_INTERVIEW') {
-		// 		data.interview.interviewer = tempInterviewers[data.interview.interviewer];
+		// 		// data.interview.interviewer = tempInterviewers[data.interview.interviewer];
 		// 		delete data.type;
-		// 		console.log(data);
 
 		// 		const appointment = { ...tempAppointments[data.id], interview: { ...data.interview } };
 		// 		const appointments = { ...tempAppointments, [data.id]: appointment };
 
+		// 		// spots
 		// 		const foundDay = tempDays.find((eachDay) => eachDay.name === state.day);
 		// 		let availableSpots = 5;
 		// 		availableSpots = foundDay.appointments.filter(
@@ -69,13 +69,13 @@ const useApplicationDataRefactor = () => {
 		// 		let days = tempDays.map((eachDay) => {
 		// 			return eachDay.appointments.includes(data.id) ? { ...eachDay, spots: remainingSpots } : eachDay;
 		// 		});
-		// 		console.log('+++++++++++++', appointments);
+
 		// 		dispatch({ type: SET_INTERVIEW, appointments, days });
 		// 	}
 		// };
 	}, []);
 
-	// update spots helper fn 
+	// update spots helper fn
 	const spotsHelper = () => {
 		// confirm available spots:
 		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);

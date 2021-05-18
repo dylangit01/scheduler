@@ -16,13 +16,33 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	const CREATE = 'CREATE';
 	const SAVING = 'SAVING';
 	const DELETE = 'DELETE';
-	const CONFIRM = 'CONFIRM'
-	const EDIT = 'EDIT'
+	const CONFIRM = 'CONFIRM';
+	const EDIT = 'EDIT';
 	const ERROR_SAVE = 'ERROR_SAVE';
 	const ERROR_DELETE = 'ERROR_DELETE';
 
-	// Whenever use custom Hook, destructuring its properties first:
+	// Using custom Hook
 	const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
+	/*
+	1. load the page
+	2. appointment component -> receive an interview
+	3. if the interview is null, visual mode is going to be empty
+	4. somebody else added an interview
+	5. with the socket connection, this appointment component now has the interview
+	mode -> EMPTY
+
+	if this component ever receives an interview (that is not null) but it is in the empty mode, change it to the show mode
+	*/
+
+	// React.useEffect(() => {
+	// 	if (interview && mode === EMPTY) {
+	// 		transition(SHOW);
+	// 	}
+	// 	if (!interview && mode === SHOW) {
+	// 		transition(EMPTY);
+	// 	}
+	// }, [interview, mode]);
 
 	// create save function to pass down to Form
 	const save = (name, interviewer) => {
@@ -40,7 +60,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 
 	const onDelete = () => {
 		// transition needs add second argument to back to EMPTY page
-		transition(DELETE,true)
+		transition(DELETE, true);
 		cancelInterview(id)
 			.then(() => transition(EMPTY))
 			.catch(() => transition(ERROR_DELETE, true));

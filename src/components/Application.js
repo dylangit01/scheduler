@@ -3,13 +3,12 @@ import DayList from './DayList';
 import Appointment from './Appointment';
 
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from '../helpers/selectors';
-// import useApplicationData from '../hooks/useApplicationData'			//-->useState
-import useApplicationDataRefactor from '../hooks/useApplicationDataRefactor'			//-->refactor with reducer
+// import useApplicationData from '../hooks/useApplicationData';			//-->useState
+import useApplicationDataRefactor from '../hooks/useApplicationDataRefactor'; //-->refactor with reducer
 
 import 'components/Application.scss';
 
 export default function Application(props) {
-
 	const { state, setDay, bookInterview, cancelInterview } = useApplicationDataRefactor();
 
 	return (
@@ -18,7 +17,7 @@ export default function Application(props) {
 				<img className='sidebar--centered' src='images/logo.png' alt='Interview Scheduler' />
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-					
+
 					{/* setDay fn has been passed down to DayList, and passed down to DayListItem again, 
 					because the trigger event is from DayListItem, the obtained day value will be retrieved 
 					from DayListItem setDay fn, and logged here.  */}
@@ -32,7 +31,7 @@ export default function Application(props) {
 				<img className='sidebar__lhl sidebar--centered' src='images/lhl.png' alt='Lighthouse Labs' />
 			</section>
 			<section className='schedule'>
-				
+
 				{/* using help fn to return the array of appointments */}
 				{getAppointmentsForDay(state, state.day).map((appointment) => {
 					const interview = getInterview(state, appointment.interview);

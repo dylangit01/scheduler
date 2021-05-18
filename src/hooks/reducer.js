@@ -7,7 +7,8 @@ const reducer = (state, action) => {
 		case SET_APPLICATION_DATA:
 			return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers };
 		case SET_INTERVIEW:
-			return { ...state, days:action.days, appointments:action.appointments };
+			return { ...state, days: action.days, appointments: action.appointments };
+			
 		default:
 			throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
 	}
