@@ -25,7 +25,11 @@ const useApplicationDataRefactor = () => {
 		// let tempAppointments = {};
 		// let tempDays = [];
 
-		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
+		Promise.all([
+			axios.get(ENDPOINT_DAY),
+			axios.get(ENDPOINT_APPOINTMENTS),
+			axios.get(ENDPOINT_INTERVIEWERS)])
+			.then(
 			(all) => {
 				const [days, appointments, interviewers] = all;
 
@@ -75,27 +79,35 @@ const useApplicationDataRefactor = () => {
 		// };
 	}, []);
 
-	// update spots helper fn
-	const spotsHelper = () => {
-		// confirm available spots:
-		const foundDay = state.days.find((eachDay) => eachDay.name === state.day);
-		let availableSpots = 5;
-		availableSpots = foundDay.appointments.filter(
-			(appointmentId) => state.appointments[appointmentId].interview === null
+	const updatedSpots = (days, appointments, id) => {
+		// Function that finds the number of spots remaining for a given day
+		const foundDay = days.find((eachDay) => eachDay.name === state.day);
+
+		const remainingSpots = foundDay.appointments.filter(
+			(appointmentId) => appointments[appointmentId].interview === null
 		).length;
-		return availableSpots;
+
+		// Fancy way to get remaining Spots:
+		// const getRemainingSpots = (day) => {
+		// 	const remainingSpots = day.appointments.reduce((accSpots, currAppId) => {
+		// 		if (appointments[currAppId].interview === null) accSpots++;
+		// 		return accSpots;
+		// 	}, 0);
+		// 	return remainingSpots;
+		// }
+
+		const updatedDays = days.map((eachDay) => {
+			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
+		});
+
+		return updatedDays;
 	};
 
 	const bookInterview = (id, interview) => {
 		const appointment = { ...state.appointments[id], interview: { ...interview } };
 		const appointments = { ...state.appointments, [id]: appointment };
 
-		const remainingSpots = spotsHelper() - 1;
-
-		// update the foundDay's spots
-		let days = state.days.map((eachDay) => {
-			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
-		});
+		const days = updatedSpots(state.days, appointments, id);
 
 		return axios
 			.put(`http://localhost:8001/api/appointments/${id}`, { interview })
@@ -106,10 +118,7 @@ const useApplicationDataRefactor = () => {
 		const appointment = { ...state.appointments[id], interview: null };
 		const appointments = { ...state.appointments, [id]: appointment };
 
-		const remainingSpots = spotsHelper() + 1;
-		let days = state.days.map((eachDay) => {
-			return eachDay.appointments.includes(id) ? { ...eachDay, spots: remainingSpots } : eachDay;
-		});
+		const days = updatedSpots(state.days, appointments, id);
 
 		// only dispatch when request is successfully sent
 		return axios
