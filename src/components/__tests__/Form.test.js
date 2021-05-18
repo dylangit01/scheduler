@@ -1,6 +1,6 @@
 // Change the watch mode to p and type in Appointment to only run the Appointment.test.js file after each update
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent, getByAltText } from '@testing-library/react';
 
 import Form from 'components/Appointment/Form';
 
@@ -49,7 +49,9 @@ describe('Form', () => {
 
 	it('can successfully save after trying to submit an empty student name', () => {
 		const onSave = jest.fn();
-		const { getByText, getByPlaceholderText, queryByText } = render( <Form interviewers={interviewers} onSave={onSave} /> );
+		const { getByText, getByPlaceholderText, queryByText, getByAltText, debug } = render(
+			<Form interviewers={interviewers} onSave={onSave} />
+		);
 
 		fireEvent.click(getByText('Save'));
 
@@ -59,13 +61,19 @@ describe('Form', () => {
 		fireEvent.change(getByPlaceholderText('Enter Student Name'), {
 			target: { value: 'Lydia Miller-Jones' },
 		});
+		debug()
 
 		fireEvent.click(getByText('Save'));
-
+		expect(queryByText(/An interviewer must be selected/i)).toBeInTheDocument();
 		expect(queryByText(/student name cannot be blank/i)).toBeNull();
+		
+		// Add test for checking if an interviewer has been selected
+		fireEvent.click(getByAltText('Sylvia Palmer'));
+		fireEvent.click(getByText('Save'));
+		expect(queryByText(/An interviewer must be selected/i)).toBeNull();
 
 		expect(onSave).toHaveBeenCalledTimes(1);
-		expect(onSave).toHaveBeenCalledWith('Lydia Miller-Jones', null);
+		expect(onSave).toHaveBeenCalledWith('Lydia Miller-Jones', 1);
 	});
 
 	it('calls onCancel and resets the input field', () => {

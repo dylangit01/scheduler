@@ -160,7 +160,7 @@ describe('Application', () => {
 			queryByText(appointment, 'Archie Cohen')
 		);
 
-		fireEvent.click(getByAltText(appointment, 'Delete')); // 3. Click the "Delete" button on the booked appointment.
+		fireEvent.click(getByAltText(appointment, 'Delete'));
 
     expect(getByText(appointment, 'Are you sure you would like to delete?')).toBeInTheDocument();
     fireEvent.click(queryByText(appointment, 'Confirm'));
