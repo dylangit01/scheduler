@@ -61,7 +61,7 @@ describe('Form', () => {
 		fireEvent.change(getByPlaceholderText('Enter Student Name'), {
 			target: { value: 'Lydia Miller-Jones' },
 		});
-		debug()
+		// debug()
 
 		fireEvent.click(getByText('Save'));
 		expect(queryByText(/An interviewer must be selected/i)).toBeInTheDocument();
