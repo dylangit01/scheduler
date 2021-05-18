@@ -11,7 +11,7 @@ const DayListItem = ({ name, spots, selected, setDay }) => {
 	});
 
 	return (
-		<li selected={selected} className={dayListClass} onClick={setDay}>
+		<li selected={selected} data-testid='day' className={dayListClass} onClick={setDay}>
 			{/* Recall original onClick event is onClick = {()=>setDay(name)}, instead, the name already has been set in DayList component, so we don't need it here */}
 			<h2 className='text--regular'>{name}</h2>
 			<h3 className='text--light'>{spots === 1 ? '1 spot' : spots === 0 ? 'no spots' : `${spots} spots`} remaining</h3>

@@ -9,6 +9,7 @@ import {
 	getAllByTestId,
 	getByAltText,
 	getByPlaceholderText,
+	queryByText,
 } from '@testing-library/react';
 
 import Application from 'components/Application';
@@ -53,8 +54,14 @@ describe('Application', () => {
 		fireEvent.click(getByAltText(appointment, 'Sylvia Palmer'));
 
     fireEvent.click(getByText(appointment, 'Save'));
+
     expect(getByText(appointment, 'Saving')).toBeInTheDocument();
+
+    // 'Saving' is an async process, has to wait for the text 
+    await waitForElement(() => getByText(appointment, 'Lydia Miller-Jones'));
+    expect(getByText(appointment, 'Lydia Miller-Jones')).toBeInTheDocument();
     
-    console.log(prettyDOM(appointment));
+    const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
+    expect(getByText(day, 'no spots remaining')).toBeInTheDocument();
 	});
 });

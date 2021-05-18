@@ -76,7 +76,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			<Header time={time} />
 			{/* cannot use ternary operator as more two views */}
 			{mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-			{mode === SHOW && (
+			{mode === SHOW && interview && (
 				<Show
 					student={interview.student}
 					interviewer={interview.interviewer}
@@ -86,7 +86,7 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 			)}
 
 			{mode === CREATE && (
-				<Form interviewers={interviewers} onSave={save} onCancel={() => back()} /> // Use the back function to return to the EMPTY state when the cancel btn is clicked.
+				<Form interviewers={interviewers} onSave={save} onCancel={back} /> // Use the back function to return to the EMPTY state when the cancel btn is clicked.
 			)}
 
 			{mode === EDIT && (
@@ -95,15 +95,15 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 					value={interview.interviewer.id}
 					name={interview.student}
 					onSave={save}
-					onCancel={() => back()}
+					onCancel={back}
 				/>
 			)}
 
 			{mode === CONFIRM && (
 				<Confirm
 					message='Are you sure you would like to delete?'
-					onConfirm={() => onDelete()}
-					onCancel={() => back()}
+					onConfirm={onDelete}
+					onCancel={back}
 				/>
 			)}
 			{mode === SAVING && <Status message='Saving' />}
