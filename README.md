@@ -25,11 +25,17 @@ Interviewer Scheduler is a single-page React application allows students to book
 - Integration and E2E testing using: Jest and Cypress
 
 ## Screenshots
+#### When a user books or cancels an interview, all connected users see the update in their browser
 !["screenshot of WebSockets_demo"](https://github.com/dylangit01/scheduler/blob/master/docs/WebSockets_demo.gif?raw=true)
+#### The list of days informs how many slots are available for each day
 !["screenshot of appointment_show"](https://github.com/dylangit01/scheduler/blob/master/docs/appointment_show.png?raw=true)
+#### Status indicator while asynchronous operations are in progress
 !["screenshot of appointment_saving"](https://github.com/dylangit01/scheduler/blob/master/docs/appointment_saving.png?raw=true)
+#### A user can book an interview in an empty appointment slot.
 !["screenshot of appointment_form"](https://github.com/dylangit01/scheduler/blob/master/docs/appointment_form.png?raw=true)
+#### A user is shown an error if an interview cannot be saved or deleted.
 !["screenshot of appointment_error"](https://github.com/dylangit01/scheduler/blob/master/docs/appointment_error.png?raw=true)
+#### A user is presented with a confirmation to cancel an interview.
 !["screenshot of appointment_confirm"](https://github.com/dylangit01/scheduler/blob/master/docs/appointment_confirm.png?raw=true)
 
 
