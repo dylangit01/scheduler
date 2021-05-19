@@ -146,6 +146,10 @@ describe('Application', () => {
     await waitForElement(() => getByText(appointment, 'Could not save appointment'));
     
     expect(getByText(appointment, 'Error')).toBeInTheDocument();
+
+    fireEvent.click(getByAltText(appointment, 'Close'));
+		const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
+		expect(getByText(day, '1 spot remaining')).toBeInTheDocument();
   });
   
 	it('shows the delete error when failing to delete an existing appointment', async () => {
@@ -167,7 +171,11 @@ describe('Application', () => {
     
     await waitForElement(() => getByText(appointment, 'Could not delete appointment'));
 
-	  expect(getByText(appointment, 'Error')).toBeInTheDocument();
+    expect(getByText(appointment, 'Error')).toBeInTheDocument();
+    
+    fireEvent.click(getByAltText(appointment, 'Close'));
+		const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
+		expect(getByText(day, '1 spot remaining')).toBeInTheDocument();
 
 	});
 });
