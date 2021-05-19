@@ -25,13 +25,12 @@ Interviewer Scheduler is a single-page React application allows students to book
 - Integration and E2E testing using: Jest and Cypress
 
 ## Screenshots
-!["screenshot of "]()
-!["screenshot of "]()
-!["screenshot of "]()
-!["screenshot of "]()
-!["screenshot of "]()
-!["screenshot of "]()
-!["screenshot of "]()
+!["screenshot of WebSockets_demo"]()
+!["screenshot of appointment_show"]()
+!["screenshot of appointment_saving"]()
+!["screenshot of appointment_form"]()
+!["screenshot of appointment_error"]()
+!["screenshot of appointment_confirm"]()
 
 
 ## Getting Started
