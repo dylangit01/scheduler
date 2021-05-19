@@ -37,11 +37,9 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 
 	React.useEffect(() => {
 		if (interview && mode === EMPTY) {
-			console.log('11111111111111111');
 			transition(SHOW);
 		}
 		if (interview === null && mode === SHOW) {
-			console.log('2222222222222222');
 			transition(EMPTY);
 		}
 	}, [interview, transition, mode]);
