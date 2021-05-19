@@ -35,14 +35,14 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	if this component ever receives an interview (that is not null) but it is in the empty mode, change it to the show mode
 	*/
 
-	// React.useEffect(() => {
-	// 	if (interview && mode === EMPTY) {
-	// 		transition(SHOW);
-	// 	}
-	// 	if (!interview && mode === SHOW) {
-	// 		transition(EMPTY);
-	// 	}
-	// }, [interview, mode]);
+	React.useEffect(() => {
+		if (interview && mode === EMPTY) {
+			transition(SHOW);
+		}
+		if (interview === null && mode === SHOW) {
+			transition(EMPTY);
+		}
+	}, [interview, transition, mode]);
 
 	// create save function to pass down to Form
 	const save = (name, interviewer) => {
