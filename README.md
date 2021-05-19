@@ -24,7 +24,7 @@ Interviewer Scheduler is a single-page React application allows students to book
 - PostgreSQL, Storybook,
 - Integration and E2E testing using: Jest and Cypress
 
-## Screenshots
+# Screenshots
 #### When a user books or cancels an interview, all connected users see the update in their browser
 !["screenshot of WebSockets_demo"](https://github.com/dylangit01/scheduler/blob/master/docs/WebSockets_demo.gif?raw=true)
 #### The list of days informs how many slots are available for each day
