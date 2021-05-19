@@ -34,7 +34,7 @@ const useApplicationDataRefactor = () => {
 			}
 		);
 
-		// Websocket part:
+		// WEBSOCKET
 		const socket = new WebSocket('ws://localhost:8001');
 
 		socket.onopen = function (event) {
