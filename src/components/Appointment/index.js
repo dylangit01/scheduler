@@ -25,14 +25,13 @@ const Appointment = ({ interviewers, interview, time, bookInterview, id, cancelI
 	const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
 	/*
+	Below useEffect is used for Websocket showing correct visual page
 	1. load the page
 	2. appointment component -> receive an interview
 	3. if the interview is null, visual mode is going to be empty
 	4. somebody else added an interview
 	5. with the socket connection, this appointment component now has the interview
-	mode -> EMPTY
-
-	if this component ever receives an interview (that is not null) but it is in the empty mode, change it to the show mode
+	6. if this component ever receives an interview (that is not null) but it is in the empty mode, change it to the show mode
 	*/
 
 	React.useEffect(() => {
