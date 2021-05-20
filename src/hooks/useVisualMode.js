@@ -24,15 +24,3 @@ export default function useVisualMode(initial) {
 
 	return { mode, transition, back };
 }
-
-// if (replace) {
-// 	setMode(mode)
-// } else {
-// 	setHistory([...history, mode]);
-// 	setMode(mode);
-// }
-
-// if (history.length > 1) {
-// 	setHistory(history.slice(0, -1))
-// 	setMode(history[history.length - 2])
-// }

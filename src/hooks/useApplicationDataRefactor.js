@@ -40,7 +40,7 @@ const useApplicationDataRefactor = () => {
 
 		// WEBSOCKET
 		// const socket = new WebSocket('ws://localhost:8001');	// from localhost
-		const socket = new WebSocket('wss://interview-app-scheduler.herokuapp.com/');	// from netlify
+		const socket = new WebSocket('wss://interview-app-scheduler.herokuapp.com/');	// from heroku server
 
 		socket.onopen = function (event) {
 			socket.send('ping');
