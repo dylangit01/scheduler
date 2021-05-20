@@ -35,7 +35,7 @@ const useApplicationDataRefactor = () => {
 		);
 
 		// WEBSOCKET
-		const socket = new WebSocket('ws://localhost:8001');
+		const socket = new WebSocket('wss://interview-app-scheduler.herokuapp.com/');
 
 		socket.onopen = function (event) {
 			socket.send('ping');
