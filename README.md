@@ -6,7 +6,8 @@ Interviewer Scheduler is a single-page React application allows students to book
 ## Server
 The server of this project has been deployed to Heroku: 
 https://interview-app-scheduler.herokuapp.com/
-- Notice: it only supports three GET endpoints on the server. The / path will return a 404 error.
+- Notice: it only supports three GET endpoints on the server. The / path will return a 404 error. (Also all localhost urls have been replaced by heroku link in order to make WebSockets work properly and to pass all the tests.)
+
 	- /api/days/
 	- /api/appointments/
 	- /api/interviewers/
