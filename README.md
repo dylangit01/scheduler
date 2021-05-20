@@ -1,6 +1,20 @@
 # Interview Scheduler
 
-Interviewer Scheduler is a single-page React application allows students to book and manage an interview with a mentor appointment.
+Interviewer Scheduler is a single-page React application allows students to book and manage an interview with a mentor appointment. 
+
+# Project Deployment
+## Server
+The server of this project has been deployed to Heroku: 
+https://interview-app-scheduler.herokuapp.com/
+- Notice: it only supports three GET endpoints on the server. The / path will return a 404 error.
+	- /api/days/
+	- /api/appointments/
+	- /api/interviewers/
+
+## Client
+The client has been deployed to Netlify:
+https://interview-app-scheduler.netlify.app/
+
 
 # Functional Behavioural
 - Interviews can be booked between Monday and Friday.
@@ -13,6 +27,9 @@ Interviewer Scheduler is a single-page React application allows students to book
 - The application makes API requests to load and persist data.
 
 # Special Features
+- This project implemented Pipeline that combines two new services:
+	1. CircleCI will manage the continuous integration process
+	2. Netlify will serve the static client assets
 - Apply useReducer and action dispatch to manage single source of truth
 - The client application communicates with a WebSocket server.
 - When a user books or cancels an interview, all connected users see the update in their browser.
@@ -23,6 +40,7 @@ Interviewer Scheduler is a single-page React application allows students to book
 - Axios, WebSocket, Webpack Dev Server, 
 - PostgreSQL, Storybook,
 - Integration and E2E testing using: Jest and Cypress
+- Heroku, CircleCI, Netlify
 
 # Screenshots
 #### When a user books or cancels an interview, all connected users see the update in their browser
