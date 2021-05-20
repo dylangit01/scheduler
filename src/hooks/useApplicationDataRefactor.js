@@ -17,9 +17,13 @@ const useApplicationDataRefactor = () => {
 
 	// MAKE SERVER CALL
 	useEffect(() => {
-		const ENDPOINT_DAY = '/api/days';
-		const ENDPOINT_APPOINTMENTS = '/api/appointments';
-		const ENDPOINT_INTERVIEWERS = '/api/interviewers';
+		// const ENDPOINT_DAY = '/api/days';
+		// const ENDPOINT_APPOINTMENTS = '/api/appointments';
+		// const ENDPOINT_INTERVIEWERS = '/api/interviewers';
+
+		const ENDPOINT_DAY = 'https://interview-app-scheduler.herokuapp.com/api/days';
+		const ENDPOINT_APPOINTMENTS = 'https://interview-app-scheduler.herokuapp.com/api/appointments';
+		const ENDPOINT_INTERVIEWERS = 'https://interview-app-scheduler.herokuapp.com/api/interviewers';
 
 		Promise.all([axios.get(ENDPOINT_DAY), axios.get(ENDPOINT_APPOINTMENTS), axios.get(ENDPOINT_INTERVIEWERS)]).then(
 			(all) => {
@@ -35,7 +39,8 @@ const useApplicationDataRefactor = () => {
 		);
 
 		// WEBSOCKET
-		const socket = new WebSocket('wss://interview-app-scheduler.herokuapp.com/');
+		// const socket = new WebSocket('ws://localhost:8001');	// from localhost
+		const socket = new WebSocket('wss://interview-app-scheduler.herokuapp.com/');	// from netlify
 
 		socket.onopen = function (event) {
 			socket.send('ping');
@@ -52,15 +57,18 @@ const useApplicationDataRefactor = () => {
 	}, []);
 
 	const bookInterview = (id, interview) => {
-		return axios
-			.put(`http://localhost:8001/api/appointments/${id}`, { interview })
-			.then(() => dispatch({ type: SET_INTERVIEW, id, interview }));
+		return (
+			axios
+				// .put(`http://localhost:8001/api/appointments/${id}`, { interview })
+				.put(`https://interview-app-scheduler.herokuapp.com/api/appointments/${id}`, { interview })
+				.then(() => dispatch({ type: SET_INTERVIEW, id, interview }))
+		);
 	};
 
 	const cancelInterview = (id) => {
 		return axios
-			.delete(`http://localhost:8001/api/appointments/${id}`)
-			.then(() => dispatch({ type: SET_INTERVIEW, id, interview:null }))
+			.delete(`https://interview-app-scheduler.herokuapp.com/api/appointments/${id}`)
+			.then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }))
 			.catch((err) => {
 				throw new Error(err);
 			});
